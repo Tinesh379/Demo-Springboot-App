@@ -31,7 +31,7 @@ jobs:
     
     - name: Bump Version and Tag
       id: release_tag
-      uses: anothrNick/github-tag-action@v2
+      uses: anothrNick/github-tag-action@1.36.0
       env:
         RELEASE_BRANCHES: main
         ACCESS_TOKEN: ${{ github.token }}
