@@ -37,6 +37,7 @@ jobs:
         RELEASE_BRANCHES: main
         GITHUB_TOKEN: ${{ github.token }}
         WITH_V: true
+        INITIAL_VERSION: ${{ pom.version }}
         VESRION: ${{ steps.tag_id.outputs.new_tag}}
 
     - name: Build with Maven
