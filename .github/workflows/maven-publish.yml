@@ -34,8 +34,7 @@ jobs:
       uses: anothrNick/github-tag-action@1.36.0
       env:
         RELEASE_BRANCHES: main
-        ACCESS_TOKEN: ${{ github.token }}
-        GITHUB_TOKEN: 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
+        GITHUB_TOKEN: ${{ github.token }}
         WITH_V: true
 
     - name: Build with Maven
