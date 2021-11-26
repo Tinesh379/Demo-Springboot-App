@@ -55,5 +55,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
-        args: Release-${{ needs.build.steps.release_tag.outputs.new_tag}}
+        #args: Release-${{ needs.build.steps.release_tag.outputs.new_tag}}
+        tag: ${{ needs.build.steps.release_tag.outputs.new_tag }}
+        name: Release ${{ needs.build.steps.release_tag.outputs.new_tag }}
 
