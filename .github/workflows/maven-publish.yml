@@ -34,6 +34,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
         WITH_V: false
+        DRY_RUN: true
+        
+        #even we do the dry run there is always a tag associated with the release
 
     - name: Change pom version
       run: mvn versions:set -DnewVersion=${{ steps.tag_id.outputs.new_tag}} #override project pom version
@@ -59,4 +62,5 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       with:
         args: Release-${{ needs.Build.outputs.version}}
+    
     
