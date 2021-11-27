@@ -35,7 +35,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
         WITH_V: false
-        DRY_RUN: true
+        DRY_RUN: true #dry run wont create a tag but determine the tag - output variable = new_tag
 
     - name: Change pom version
       run: mvn versions:set -DnewVersion=${{ steps.tag_id.outputs.new_tag}} #override project pom version
@@ -48,7 +48,7 @@ jobs:
       env:
         ACCESS_TOKEN: ${{ github.token }}
     outputs:
-        version: ${{ steps.tag_id.outputs.new_tag}} #stores the tag but does not tag the repo.
+        version: ${{ steps.tag_id.outputs.new_tag}} #storing the tag value for later use
 
   Release:
     runs-on: ubuntu-latest
