@@ -34,6 +34,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
         WITH_V: false
+        DRY_RUN: true
         
         #even we do the dry run there is always a tag associated with the release
 
