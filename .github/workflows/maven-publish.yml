@@ -38,7 +38,7 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
         WITH_V: false
         DRY_RUN: true
-        
+
     - name: Change pom version
       run: mvn versions:set -DnewVersion=${{ steps.tag_id.outputs.new_tag}} #override project pom version
 
@@ -46,14 +46,14 @@ jobs:
       run: mvn -B package --file pom.xml 
 
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml 
+      run: mvn clean deploy -s $GITHUB_WORKSPACE/settings.xml 
       env:
         ACCESS_TOKEN: ${{ github.token }}
 
     - name: Create a Release
       uses: elgohr/Github-Release-Action@master
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       with:
         args: Release-${{ steps.tag_id.outputs.new_tag }}
         
