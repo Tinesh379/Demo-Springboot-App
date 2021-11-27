@@ -6,9 +6,7 @@ name: Maven Package
 on:
   push:
     branch: [main]
-  release:
-    types: [created]
-
+    
 jobs:
 
   build:
@@ -57,11 +55,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       with:
         args: Release-${{ steps.tag_id.outputs.new_tag }}
-    - name: create a release tag
-      uses: anothrNick/github-tag-action@1.36.0
-      env:
-        RELEASE_BRANCHES: main
-        GITHUB_TOKEN: ${{ github.token }}
-        INITIAL_VERSION: ${{ steps.tag_id.outputs.new_tag }}
-        WITH_V: false
-      
+    
