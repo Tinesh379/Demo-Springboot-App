@@ -36,15 +36,14 @@ jobs:
       env:
         RELEASE_BRANCHES: main
         GITHUB_TOKEN: ${{ github.token }}
-        WITH_V: true
-        INITIAL_VERSION: ${{ pom.version }}
+        WITH_V: false
         VESRION: ${{ steps.tag_id.outputs.new_tag}}
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml --Dversion= ${{ steps.tag_id.outputs.new_tag }}
       env:
         ACCESS_TOKEN: ${{ github.token }}
   release-project:
