@@ -37,26 +37,23 @@ jobs:
         RELEASE_BRANCHES: main
         GITHUB_TOKEN: ${{ github.token }}
         WITH_V: false
-        VESRION: ${{ steps.tag_id.outputs.new_tag}}
-    - name: change pom version
-      run: mvn versions:set -DnewVersion=$VESRION
+        DRY_RUN: true
+        
+    - name: Change pom version
+      run: mvn versions:set -DnewVersion=${{ steps.tag_id.outputs.new_tag}} #override project pom version
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml 
 
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml --Dversion= ${{ steps.tag_id.outputs.new_tag }}
+      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml 
       env:
         ACCESS_TOKEN: ${{ github.token }}
-  release-project:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
+
     - name: Create a Release
       uses: elgohr/Github-Release-Action@master
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
-        args: Release-${{ github.run_number }}
+        args: Release-${{ steps.tag_id.outputs.new_tag }}
         
