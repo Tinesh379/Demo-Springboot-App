@@ -9,8 +9,7 @@ on:
 
 jobs:
 
-  build:
-
+  Build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,17 +27,14 @@ jobs:
         server-password: ACCESS_TOKEN
         settings-path: ${{ github.workspace }} # location for the settings.xml file
     
-    - name: Bump Version and Tag
-      id: tag_id
+    - id: tag_id
+      name: Bump Version and Tag
       uses: anothrNick/github-tag-action@1.36.0
       env:
         RELEASE_BRANCHES: main
         GITHUB_TOKEN: ${{ github.token }}
         WITH_V: false
-        DRY_RUN: false
-        
-#tagging every push
-      
+
     - name: Change pom version
       run: mvn versions:set -DnewVersion=${{ steps.tag_id.outputs.new_tag}} #override project pom version
 
@@ -49,11 +45,18 @@ jobs:
       run: mvn clean deploy -s $GITHUB_WORKSPACE/settings.xml  
       env:
         ACCESS_TOKEN: ${{ github.token }}
+    outputs:
+        version: ${{ steps.tag_id.outputs.new_tag}}
 
+  Release:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+    - uses: actions/checkout@v2
     - name: Create a Release
       uses: elgohr/Github-Release-Action@master
       env:
         GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       with:
-        args: Release-${{ steps.tag_id.outputs.new_tag }}
+        args: Release-${{ needs.Build.outputs.version}}
     
