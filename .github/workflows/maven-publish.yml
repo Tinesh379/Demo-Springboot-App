@@ -39,8 +39,7 @@ jobs:
         WITH_V: false
         DRY_RUN: true
      
-    - name: Clean repository
-      run : mvn clean --file pom.xml 
+  
     - name: Change pom version
       run: mvn versions:set -DnewVersion=${{ steps.tag_id.outputs.new_tag}} #override project pom version
 
@@ -48,7 +47,7 @@ jobs:
       run: mvn -B package --file pom.xml 
 
     - name: Publish to GitHub Packages Apache Maven
-      run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml 
+      run: mvn clean deploy -s $GITHUB_WORKSPACE/settings.xml 
       env:
         ACCESS_TOKEN: ${{ github.token }}
 
