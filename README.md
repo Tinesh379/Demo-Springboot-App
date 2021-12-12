@@ -1,2 +1,7 @@
-# demo-springboot-app
-github workflow automation
+# DEMO SPRINGBOOT APP
+# github workflow automation
+
+Maven Build - Publish Package - Release - Tag
+
+
+
